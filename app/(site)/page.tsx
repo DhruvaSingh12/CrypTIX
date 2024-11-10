@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
           <Header />
         </Box>
         <Box className="overflow-y-auto flex-1 h-full">
-          <div className="mt-4 mb-4">
+          <div className="mb-4">
             <Toggle
               coins={search ? filteredCoins : paginatedCoins}
               setSearch={setSearch}
