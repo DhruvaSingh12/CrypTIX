@@ -24,6 +24,16 @@ const config: Config = {
           DEFAULT: '#ff5d5d',
           dark: '#a30000',
         },
+        grey: {
+          light: '#d1d5db', 
+          DEFAULT: '#6b7280', 
+          dark: '#374151', 
+        },
+        blue: {
+          light: '#bfdbfe', 
+          DEFAULT: '#3b82f6', 
+          dark: '#1e40af', 
+        },
       },
       screens: {
         xs: '400px',

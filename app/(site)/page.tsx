@@ -1,74 +1,76 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "@/components/Header";
-import BiotechWebsite from "./components/BiotechWebsite";
-import NCBIFooter from "./components/NCBIFooter";
-import Box from "@/components/Box";
+import Box from "@/components/Box"; 
+import Toggle from "./components/Toggle"; 
+import Loading from "./loading"; 
+import { Coin } from "@/types";
 
-export const revalidate = 0;
+const Dashboard: React.FC = () => {
+  const [coins, setCoins] = useState<Coin[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>(""); 
+  const [paginatedCoins, setPaginatedCoins] = useState<Coin[]>([]); 
 
-export default async function Home() {
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get<Coin[]>(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&x_cg_demo_api_key=CG-tyrZY6nMqRfVrSHtSrQZRTti"
+      );
+      console.log("RESPONSE>>>", response.data);
+      setCoins(response.data);
+      setPaginatedCoins(response.data.slice(0, 100));
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("ERROR>>>", error.message);
+      } else {
+        console.log("An unknown error occurred.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredCoins = coins.filter(
+    (coin) =>
+      coin.name.toLowerCase().includes(search.trim().toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(search.trim().toLowerCase())
+  );
+
+  if (loading) {
+    return <Loading/>;
+  }
+
   return (
-    <div className="bg-white
-            rounded-lg
-            h-full
-            w-full
-            overflow-y-auto
-            overflow-x-hidden ">
-      {/* Main Wrapper */}
-      <div className="w-full
-                flex
-                flex-col
-                gap-y-2
-                bg-white
-                h-full
-                overflow-x-hidden">
-        <Box>
-        
-                    <Header>
-                        <div className="mb-2 flex flex-col gap-y-3">
-                        <h1 className="text-transparent bg-clip-text text-center bg-gradient-to-r from-teal-500 to-blue-600 text-4xl md:text-5xl font-extrabold uppercase tracking-widest">
-                            AushadhInfo
-                        </h1>
-          
-                        </div>
-                    </Header>
-                </Box>
-
-        {/* Main Content Section */}
-        <Box className="flex flex-col md:flex-row justify-between items-center p-10">
-          <div className="w-full md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Care beyond medicine</h1>
-            <p className="text-gray-600 mb-6">
-              Discover personalized medicine recommendations, find the nearest stores and hospitals, stay updated with the latest health news, receive timely medication reminders, and get support from our health chatbot—all in one place.
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <button className="bg-teal-600 text-white px-6 py-2 rounded-md hover:bg-teal-700">Get Started</button>
-              <button className="text-teal-600 px-6 py-2 border border-teal-600 rounded-md hover:bg-teal-50">Learn More</button>
-            </div>
-          </div>
-          <div className="w-full md:w-1/2 flex justify-center">
-            <img
-              src="/images/home.png"
-              alt="Doctor Illustration"
-              className="max-w-xs md:max-w-md rounded-full"
+    <div className="bg-white rounded-lg h-full w-full overflow-hidden overflow-y-auto">
+      <div className="flex flex-col gap-y-2 bg-white h-full">
+        <Box className="mt-2">
+          <Header />
+        </Box>
+        <Box className="overflow-y-auto flex-1 h-full">
+          <div className="mt-4 mb-4">
+            <Toggle
+              coins={search ? filteredCoins : paginatedCoins}
+              setSearch={setSearch}
+              search={search}
+              handleChange={handleChange}
             />
           </div>
         </Box>
-
-        {/* BiotechWebsite Section */}
-        <Box>
-          <BiotechWebsite />
-        </Box>
-
-        {/* Footer Section */}
-        <Box>
-          <NCBIFooter />
-        </Box>
-
-        <div className="hidden">
-          <script src="https://cdn.botpress.cloud/webchat/v2.1/inject.js"></script>
-          <script src="https://mediafiles.botpress.cloud/068709b8-fee8-4963-b5c8-b1f0327fa310/webchat/v2.1/config.js"></script>
-        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;

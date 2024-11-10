@@ -1,44 +1,24 @@
-import {forwardRef} from "react";
-import {twMerge} from "tailwind-merge";
+import React from "react";
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface ButtonProps {
+  text: string;
+  onClick: () => void; 
+  outlined?: boolean; 
+}
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
-className,
-children,
-disabled,
-type="button",
-...props
-}, ref) => {
-    return (
-        <button
-          type={type}
-          className={twMerge(`
-            w-full
-            rounded-full
-            bg-white
-            border
-            border-transparent
-            px-3 
-            py-3
-            disabled:cursor-not-allowed
-            disabled:opacity-50
-            text-black
-            font-bold
-            hover:opacity-75
-            transition
-          `,
-           className
-        )}
-        disabled={disabled}
-        ref={ref}
-        {...props}
-        >
-            {children}
-        </button>
-    )
-})
-Button.displayName = "Button";
+const Button: React.FC<ButtonProps> = ({ text, onClick, outlined }) => {
+  const baseStyles = "py-2 px-6 rounded-full font-semibold text-sm capitalize cursor-pointer min-w-[80px] transition-all duration-300";
+  const outlinedStyles = "bg-black border-2 border-blue-600 text-white hover:bg-blue-600";
+  const filledStyles = "bg-blue-600 border-2 border-blue-600 text-white hover:shadow-lg";
 
-export default Button;  
+  return (
+    <div
+      className={`${baseStyles} ${outlined ? outlinedStyles : filledStyles}`}
+      onClick={onClick}
+    >
+      {text}
+    </div>
+  );
+};
+
+export default Button;
