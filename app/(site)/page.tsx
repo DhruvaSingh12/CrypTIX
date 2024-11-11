@@ -69,6 +69,10 @@ const Dashboard: React.FC = () => {
           </div>
         </Box>
       </div>
+      <div className="hidden">
+          <script src="https://cdn.botpress.cloud/webchat/v2.1/inject.js" defer></script>
+          <script src="https://mediafiles.botpress.cloud/14901d04-91d2-44fd-ab82-b83e982a324f/webchat/v2.1/config.js" defer></script>
+        </div>
     </div>
   );
 };
