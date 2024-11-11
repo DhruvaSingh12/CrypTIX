@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import GridViewIcon from "@mui/icons-material/GridView";
-import TableChartIcon from "@mui/icons-material/TableChart";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Grid from "./Grid";
 import Button from "@/components/Button";
 import CryptoTable from "./Table";
 import Search from "./Search"; 
+import {FaTable, FaTh} from "react-icons/fa";
 
 interface ToggleProps {
   coins: any[];
@@ -32,11 +31,11 @@ const Toggle: React.FC<ToggleProps> = ({ coins, search, handleChange, setSearch 
         <Tooltip title={`Switch to ${view === "grid" ? "Table" : "Grid"} View`}>
           <IconButton
             onClick={handleViewToggle}
-            className="hover:bg-gray-300 bg-gray-200 mb-6 hover:cursor-pointer">
+            className="hover:bg-gray-300 bg-gray-200 p-3 mb-6 hover:cursor-pointer">
             {view === "grid" ? (
-              <TableChartIcon className="text-black" fontSize="large" />
+              <FaTable className="text-black text-[32px]" />
             ) : (
-              <GridViewIcon className="text-black" fontSize="large" />
+              <FaTh className="text-black text-[32px]" />
             )}
           </IconButton>
         </Tooltip>
