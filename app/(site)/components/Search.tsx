@@ -1,6 +1,6 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import SearchIcon from "@mui/icons-material/Search";
+import { FaSearch } from "react-icons/fa";
 
 interface SearchProps {
   search: string;
@@ -11,7 +11,7 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ search, handleChange, className }) => {
   return (
     <div className="flex items-center gap-4 w-4/5 mx-auto px-2 pb-2 rounded-full mb-6">
-      <SearchIcon className="text-black text-5xl" />
+      <FaSearch className="text-black text-4xl" />
       <input
         className={twMerge(`
           bg-gray-200
