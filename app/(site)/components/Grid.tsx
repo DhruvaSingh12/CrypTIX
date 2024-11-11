@@ -92,7 +92,7 @@ const Grid: React.FC<GridProps> = ({ coin }) => {
         </div>
         <div className="flex flex-row gap-x-2">
           <p className="text-gray-600 font-bold">Market Cap.</p>
-          <p className="text-black font-semibold text-[16px]">
+          <p className="text-black font-semibold text-[15.5px]">
             ${coin.market_cap.toLocaleString()}
           </p>
         </div>
